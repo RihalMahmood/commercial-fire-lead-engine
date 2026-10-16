@@ -21,3 +21,14 @@ ENV/
 # IDE & Editor files
 .vscode/
 .idea/
+
+# Personal Files
+Call_Transcript.md
+Conversation.txt
+Fire_Protection_Intents_to_Services_Guide.pdf
+generate_pdf_guide.py 
+Real Estate Code Violation Outreach Automation Workflow SOP.pdf
+test_foundation.py
+transcript_summary_source.txt
+MASTER_PROJECT_REQUIREMENTS.md
+planning.md
