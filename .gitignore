@@ -1,0 +1,23 @@
+# Environment variables and secrets (NEVER commit these)
+.env
+*.env
+.env.local
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Local databases & logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# IDE & Editor files
+.vscode/
+.idea/
