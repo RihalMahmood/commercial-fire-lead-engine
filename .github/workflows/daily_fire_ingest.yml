@@ -29,6 +29,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
         run: |
           python run_daily_pipeline.py --days 1
 
@@ -36,5 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Daily-Fire-Violations-24h
-          path: LA_Daily_Fire_Violations_24h.csv
+          path: |
+            LA_Daily_Fire_Violations_24h.csv
+            exports/
           if-no-files-found: ignore

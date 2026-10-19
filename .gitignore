@@ -18,6 +18,7 @@ ENV/
 *.sqlite3
 *.log
 *.csv
+exports/
 Intent_2/
 test_delta.py
 batchdata_*.json
