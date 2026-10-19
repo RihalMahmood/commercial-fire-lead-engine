@@ -1,13 +1,13 @@
-name: California Fire Safety Autonomous Engine
+name: California Fire Safety Autonomous 24h Engine
 
 on:
   schedule:
-    # Run every 4 hours (at minute 0)
-    - cron: '0 */4 * * *'
+    # Run every day at 6:00 AM UTC (11:00 PM Pacific Time / early morning city update)
+    - cron: '0 6 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub UI anytime
 
 jobs:
-  ingest_and_process:
+  daily_pipeline:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,15 +25,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests supabase python-dotenv
 
-      - name: Test Cloud Connectivity
+      - name: Execute Autonomous 24h Fire Pipeline
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          python test_foundation.py
+          python run_daily_pipeline.py --days 1
 
-      # Subsequent stages will be plugged in here as we build each intent:
-      # - name: Run Municipal SODA Extraction (Intent 1 & 2)
-      #   run: python extract_municipal_violations.py
-      # - name: Run Phase 1 & 2 AI Processing
-      #   run: python process_leads_ai.py
+      - name: Upload Daily Opportunities CSV Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Daily-Fire-Violations-24h
+          path: LA_Daily_Fire_Violations_24h.csv
+          if-no-files-found: ignore

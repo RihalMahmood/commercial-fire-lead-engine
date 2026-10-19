@@ -7,6 +7,35 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ------------------------------------------------------------------------------
+-- TABLE 0: daily_fire_violations_24h
+-- Stores fresh fire violations extracted in each 24-hour cycle.
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS daily_fire_violations_24h (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    source_city VARCHAR(50) NOT NULL DEFAULT 'los_angeles',
+    source_endpoint_id VARCHAR(50) NOT NULL,
+    case_or_permit_number VARCHAR(100) NOT NULL,
+    property_address TEXT NOT NULL,
+    zip_code VARCHAR(20),
+    apn VARCHAR(50),
+    violation_date DATE,
+    status_desc VARCHAR(100),
+    violation_summary TEXT,
+    mapped_trade_service VARCHAR(150),
+    deep_link_verification_url TEXT NOT NULL,
+    raw_payload JSONB,
+    pipeline_status VARCHAR(50) DEFAULT 'EXTRACTED', -- EXTRACTED, TRIAGED, VALUATED, ENRICHED, DISPATCHED
+    extracted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_daily_violations_unique
+ON daily_fire_violations_24h (source_city, source_endpoint_id, case_or_permit_number, violation_date);
+
+CREATE INDEX IF NOT EXISTS idx_daily_violations_date ON daily_fire_violations_24h (violation_date);
+CREATE INDEX IF NOT EXISTS idx_daily_violations_status ON daily_fire_violations_24h (pipeline_status);
+
+
+-- ------------------------------------------------------------------------------
 -- TABLE 1: raw_municipal_violations
 -- Ingests 100% RAW, unfiltered records directly from city SODA APIs.
 -- ------------------------------------------------------------------------------
