@@ -21,8 +21,7 @@ import urllib.parse
 from datetime import datetime, timedelta, timezone
 import requests
 from dotenv import load_dotenv
-from supabase import create_client, Client
-from stage4_serper_decision_makers import run_stage4_decision_maker_pipeline
+from stage4_unified_enrichment import run_stage4_unified_pipeline
 
 # Ensure UTF-8 output encoding for Windows consoles
 if sys.platform == "win32":
@@ -428,8 +427,8 @@ def main():
     # Step 4: 90-Day Suppression Deduplication
     run_suppression_check()
 
-    # Step 5: Stage 4 Multi-Tier Serper Decision-Maker Discovery & Storage
-    run_stage4_decision_maker_pipeline()
+    # Step 5: Stage 4 Verified Deed Skip-Trace & Executive Discovery
+    run_stage4_unified_pipeline()
 
     # Step 6: Export daily opportunities CSV
     export_daily_csv()
