@@ -18,12 +18,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests supabase python-dotenv
+          pip install -r requirements.txt
 
       - name: Execute Autonomous 24h Fire Pipeline
         env:
